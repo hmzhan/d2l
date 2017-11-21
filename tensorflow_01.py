@@ -17,6 +17,16 @@ print("sess.run(node3):", sess.run(node3))
 
 
 # placeholder -----------------------------------------------------------------
+# a placeholder is used for feeding external data into a tensorflow computation
+# tensorflow's feed mechanism lets you inject data into any tensor in a 
+# computation graph. a python computation can thus feed data directly into
+# the graph. when you read from standard input, your need to inject data
+# from an external source. same with a placeholder. it lets you inject data
+# that is external to the computation graph. if you are training a learning 
+# algorighm, the clear use case of placeholder is to feed in your training
+# data. the training data is not stored in the compuation graph. a placeholder
+# is basically you telling the graph "I don't have this for you yet. but I will
+# have it for your when I ask you to run".
 a = tf.placeholder(tf.float32)
 b = tf.placeholder(tf.float32)
 adder_node = a + b
@@ -28,6 +38,10 @@ print(sess.run(add_and_triple, {a: 3, b: 4.5}))
 
 
 # variable --------------------------------------------------------------------
+# a variable is used to store state in your graph. it requres an initial value.
+# one use case could be representing weights of a neural network.
+# https://stackoverflow.com/questions/41294094/tensorflow-placeholder-and-variable
+
 W = tf.Variable([.3], dtype = tf.float32)
 b = tf.Variable([-.3], dtype = tf.float32)
 x = tf.placeholder(tf.float32)

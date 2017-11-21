@@ -30,8 +30,3 @@ with tf.Session() as sess:
 	result = sess.run(product)
 	print(result)
 
-
-
-
-
-
