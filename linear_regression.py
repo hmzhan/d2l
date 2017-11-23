@@ -8,7 +8,7 @@ rng = numpy.random
 
 # parameters ------------------------------------------------------------------
 learning_rate = 0.01
-training_epochs = 1000
+training_epochs = 10000
 display_step = 50
 
 # training data ---------------------------------------------------------------
@@ -42,8 +42,48 @@ with tf.Session() as sess:
 	sess.run(init)
 	for epoch in range(training_epochs):
 		for (x, y) in zip(X_train, Y_train):
-			sess.run(optimizer, feed_dict = {X: x, Y: y})
+			sess.run(train, feed_dict = {X: x, Y: y})
 		if (epoch + 1) % display_step == 0:
+			c = sess.run(loss, feed_dict = {X: X_train, Y: Y_train})
+			print("Epoch:", "%04d" % (epoch + 1), "cost = ", "{:.9f}".format(c), \
+				"W = ", sess.run(W), "b = ", sess.run(b))
+	print("Optimization Finished.")
+	training_cost = sess.run(loss, feed_dict = {X: X_train, Y: Y_train})
+	print("Training cost = ", training_cost, "W = ", sess.run(W), "b = ", sess.run(b), "\n")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
