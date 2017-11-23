@@ -26,15 +26,29 @@ W = tf.Variable(rng.randn(), name = "weight")
 b = tf.Variable(rng.randn(), name = "bias")
 
 # construct a linear model
-pred = tf.add(tf.multiply(X, W), b)
+linear_model = tf.add(tf.multiply(X, W), b)
 # mean squared error
-cost = tf.reduce_sum(tf.pow(pred - Y, 2))/(2 * n_samples)
+loss = tf.reduce_sum(tf.pow(linear_model - Y, 2))/(2 * n_samples)
 
 # gradient descent
-optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(cost)
+optimizer = tf.train.GradientDescentOptimizer(learning_rate)
+train = optimizer.minimize(loss)
+
 # initialize the variables
 init = tf.global_variables_initializer()
 
 # start training --------------------------------------------------------------
 with tf.Session() as sess:
-	
+	sess.run(init)
+	for epoch in range(training_epochs):
+		for (x, y) in zip(X_train, Y_train):
+			sess.run(optimizer, feed_dict = {X: x, Y: y})
+		if (epoch + 1) % display_step == 0:
+
+
+
+
+
+
+
+
