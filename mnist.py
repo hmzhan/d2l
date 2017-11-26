@@ -1,10 +1,10 @@
 
-import math
-import tensorflow as tf 
-
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
+
+import math
+import tensorflow as tf 
 
 NUM_CLASSES = 10
 IMAGE_SIZE = 28

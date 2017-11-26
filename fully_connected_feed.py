@@ -1,4 +1,8 @@
 
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+
 import os
 import sys
 import time
@@ -9,9 +13,6 @@ from six.moves import xrange
 from tensorflow.examples.tutorials.mnist import input_data
 from tensorflow.examples.tutorials.mnist import mnist
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
 
 FLAGS = None
 
@@ -60,7 +61,7 @@ def do_eval(sess,
 
 
 def run_training():
-	datasets = input_data.read_data_sets(
+	data_sets = input_data.read_data_sets(
 		FLAGS.input_data_dir,
 		FLAGS.fake_data
 	)
@@ -142,9 +143,9 @@ if __name__ == '__main__':
 	parser = argparse.ArgumentParser()
 	parser.add_argument(
 	    '--learning_rate',
-	    type=float,
-	    default=0.01,
-	    help='Initial learning rate.'
+	    type = float,
+	    default = 0.01,
+	    help = 'Initial learning rate.'
 	)
 	parser.add_argument(
 	    '--max_steps',
@@ -189,8 +190,9 @@ if __name__ == '__main__':
 	    default=False,
 	    help='If true, uses fake data for unit testing.',
 	    action='store_true'
-	)	FLAGS, unparsed = parser.parse_known_args()
-	tf.app.run(main =main, argv = [sys.argv[0] + unparsed])
+	)	
+	FLAGS, unparsed = parser.parse_known_args()
+	tf.app.run(main = main, argv = [sys.argv[0]] + unparsed)
 
 
 
