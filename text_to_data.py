@@ -86,7 +86,7 @@ class TimeMachine(DataModule):
         super(TimeMachine, self).__init__()
         self.save_hyperparameters()
         corpus, self.vocab = self.build(self._download())
-        array = tensor([corpus[i:i+num_steps+1] for i in range(len(corpus)-num_steps)])
+        array = torch.tensor([corpus[i:i+num_steps+1] for i in range(len(corpus)-num_steps)])
         self.X, self.Y = array[:, :-1], array[:, 1:]
 
     def _download(self):
