@@ -5,6 +5,8 @@ import re
 import requests
 import hashlib
 import torch
+import inspect
+
 
 DATA_HUB = dict()
 DATA_URL = 'http://d2l-data.s3-accelerate.amazonaws.com/'
@@ -38,6 +40,47 @@ def download(url, folder='../data', sha1_hash=None):
     return fname
 
 
+class HyperParameters:
+    """The base class of hyperparameters."""
+    def save_hyperparameters(self, ignore=[]):
+        """Defined in :numref:`sec_oo-design`"""
+        raise NotImplemented
+
+    def save_hyperparameters(self, ignore=[]):
+        """Save function arguments into class attributes.
+        Defined in :numref:`sec_utils`"""
+        frame = inspect.currentframe().f_back
+        _, _, _, local_vars = inspect.getargvalues(frame)
+        self.hparams = {k:v for k, v in local_vars.items()
+                        if k not in set(ignore+['self']) and not k.startswith('_')}
+        for k, v in self.hparams.items():
+            setattr(self, k, v)
+
+
+class DataModule(HyperParameters):
+    """The base class of data.
+
+    Defined in :numref:`subsec_oo-design-models`"""
+    def __init__(self, root='../data', num_workers=4):
+        self.save_hyperparameters()
+
+    def get_dataloader(self, train):
+        raise NotImplementedError
+
+    def train_dataloader(self):
+        return self.get_dataloader(train=True)
+
+    def val_dataloader(self):
+        return self.get_dataloader(train=False)
+
+    def get_tensorloader(self, tensors, train, indices=slice(0, None)):
+        """Defined in :numref:`sec_synthetic-regression-data`"""
+        tensors = tuple(a[indices] for a in tensors)
+        dataset = torch.utils.data.TensorDataset(*tensors)
+        return torch.utils.data.DataLoader(dataset, self.batch_size,
+                                           shuffle=train)
+
+
 class TimeMachine():
     def _download(self):
         fname = download(DATA_URL + "timemachine.txt", self.root, "090b5e7e70c295757f55df93cb0a180b9691891a")
@@ -49,6 +92,7 @@ class TimeMachine():
 
     def _tokenize(self, text):
         return list(text)
+
 
 
 
