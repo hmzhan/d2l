@@ -95,7 +95,7 @@ class TimeMachine(DataModule):
             return f.read()
 
     def _preprocess(self, text):
-        return re.sub('[A-Za-z]+', ' ', text).lower()
+        return re.sub('[^A-Za-z]+', ' ', text).lower()
 
     def _tokenize(self, text):
         return list(text)
