@@ -81,9 +81,9 @@ class DataModule(HyperParameters):
                                            shuffle=train)
 
 
-class TimeMachine():
+class TimeMachine:
     def _download(self):
-        fname = download(DATA_URL + "timemachine.txt", self.root, "090b5e7e70c295757f55df93cb0a180b9691891a")
+        fname = download(DATA_URL + "timemachine.txt", '../data', "090b5e7e70c295757f55df93cb0a180b9691891a")
         with open(fname) as f:
             return f.read()
 
