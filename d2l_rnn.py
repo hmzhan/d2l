@@ -40,9 +40,25 @@ class RNNLMScratch(Classifier):
 
     def training_step(self, batch):
         l = self.loss(self(*batch[:-1]), batch[-1])
-        self.plot('ppl', torch.exp(1), train=True)
+        self.plot('ppl', torch.exp(l), train=True)
         return l
 
     def validation_step(self, batch):
         l = self.loss(self(*batch[:-1]), batch[-1])
-        self.plot('ppl', torch.exp(1), train=False)
+        self.plot('ppl', torch.exp(l), train=False)
+
+    def one_hot(self, X):
+        return F.one_hot(X.T, self.vocab_size).type(torch.float32)
+
+    def output_layer(self, rnn_output):
+        outputs = [torch.matmul(H, self.W_hq) + self.b_q for H in rnn_output]
+        return torch.stack(outputs, 1)
+
+    def forward(self, X, state=None):
+        embs = self.one_hot(X)
+        rnn_outputs, _ = self.rnn(embs, state)
+        return self.output_layer(rnn_outputs)
+
+
+
+
