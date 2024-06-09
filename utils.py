@@ -3,6 +3,7 @@ import inspect
 import numpy
 import torch
 from torch import nn
+from torch.nn import functional as F
 import torchvision
 from torchvision import transforms
 from matplotlib import pyplot as plt
@@ -253,3 +254,15 @@ class Classifier(Module):
         preds = Y_hat.argmax(axis=1).type(Y.dtype)
         compare = (preds == Y.reshape(-1)).type(torch.float32)
         return compare.mean() if averaged else compare
+
+    def loss(self, Y_hat, Y, averaged=True):
+        """Loss function"""
+        Y_hat = numpy.reshape(Y_hat, (-1, Y_hat.shape[-1]))
+        Y = numpy.reshape(Y, (-1, ))
+        return F.cross_entropy(Y_hat, Y, reduction='mean' if averaged else 'none')
+
+    def layer_summary(self, X_shape):
+        X = numpy.randn(*X_shape)
+        for layer in self.net:
+            X = layer(X)
+            print(layer.__class__.__name__, 'output shape:\t', X.shape)
