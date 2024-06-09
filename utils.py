@@ -257,8 +257,8 @@ class Classifier(Module):
 
     def loss(self, Y_hat, Y, averaged=True):
         """Loss function"""
-        Y_hat = numpy.reshape(Y_hat, (-1, Y_hat.shape[-1]))
-        Y = numpy.reshape(Y, (-1, ))
+        Y_hat = reshape(Y_hat, (-1, Y_hat.shape[-1]))
+        Y = reshape(Y, (-1, ))
         return F.cross_entropy(Y_hat, Y, reduction='mean' if averaged else 'none')
 
     def layer_summary(self, X_shape):
@@ -304,3 +304,5 @@ class FashionMNIST(DataModule):
             labels = self.text_labels(y)
         show_images(X.squeeze(1), nrows, ncols, titles=labels)
 
+
+reshape = lambda x, *args, **kwargs: x.reshape(*args, **kwargs)
