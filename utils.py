@@ -84,7 +84,7 @@ def plot(X, Y=None, xlabel=None, ylabel=None, legend=[], xlim=None,
         axes = plt.gca()
     axes.cla()
     for x, y, fmt in zip(X, Y, fmts):
-        axes.plot(x,y,fmt) if len(x) else axes.plot(y,fmt)
+        axes.plot(x, y, fmt) if len(x) else axes.plot(y,fmt)
     set_axes(axes, xlabel, ylabel, xlim, ylim, xscale, yscale, legend)
 
 
