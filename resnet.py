@@ -31,10 +31,10 @@ class ResNet(Classifier):
         self.save_hyperparameters()
         self.net = nn.Sequential(self.b1())
         for i, b in enumerate(arch):
-            self.net.add_module(f'b{ i +2}', self.block(*b, first_block=( i= =0)))
+            self.net.add_module(f'b{ i +2}', self.block(*b, first_block=(i == 0)))
         self.net.add_module(
             'last',
-            nn.Sequential(nn.AdaptiveAvgPool2d((1 ,1)), nn.Flatten(), nn.LazyLinear(num_classes))
+            nn.Sequential(nn.AdaptiveAvgPool2d((1, 1)), nn.Flatten(), nn.LazyLinear(num_classes))
         )
         self.net.apply(init_cnn)
 
