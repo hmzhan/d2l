@@ -33,6 +33,13 @@ def number_gpus():
     return torch.cuda.device_count()
 
 
+def init_cnn(module):
+    """Initialize weights for CNNs.
+    Defined in :numref:`sec_lenet`"""
+    if type(module) == nn.Linear or type(module) == nn.Conv2d:
+        nn.init.xavier_uniform_(module.weight)
+
+
 def use_svg_display():
     """Use the svg format to display a plot in Jupyter.
 
